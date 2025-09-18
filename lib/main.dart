@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:get_scroll_mixin/pages/user_list-controller.dart';
+import 'package:get_scroll_mixin/pages/user_list_controller.dart';
 import 'package:get_scroll_mixin/pages/user_list_page.dart';
 import 'package:get_scroll_mixin/repositories/user_repository.dart';
 
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Get Scroll Mixin',
       initialBinding: BindingsBuilder(() {
-        Get.lazyPut(() => Dio(BaseOptions(baseUrl: 'http://localhost:8080')), fenix: true);
+        Get.lazyPut(() => Dio(BaseOptions(baseUrl: 'http://10.24.24.247:8080/')), fenix: true);
 
         Get.lazyPut(() => UserRepository(dio: Get.find()), fenix: true);
       }),
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          binding: BindingsBuilder.put(() => UserListController()),
+          binding: BindingsBuilder.put(() => UserListController(userRepository: Get.find())),
           page: () => UserListPage(),
         )
       ],
