@@ -12,12 +12,30 @@ class UserListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('User List'),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () => controller.atualizar()),
       body: controller.obx((state) {
+        final totalItems = (state?.length ?? 0);
         return ListView.builder(
           controller: controller.scroll,
-          itemCount: state?.length ?? 0,
+          itemCount: totalItems + 1,
           itemBuilder: (context, index) {
+            if (index == totalItems) {
+              return Obx(
+                () {
+                  return Visibility(
+                    visible: controller.isLoading,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Text(
+                          'Carregando novos usuários',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
             final user = state?[index];
             return ListTile(
               title: Text(user?.name ?? ''),
